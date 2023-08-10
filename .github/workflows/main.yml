@@ -29,7 +29,7 @@ jobs:
       run: npm run build:prod
       
     - name: Deploy to main server
-      uses: appleboy/ssh-action@v2
+      uses: appleboy/ssh-action@v0.1.7
       with:
         host: ${{ secrets.HOSTNAME }}
         username: ${{ secrets.USERNAME }}
