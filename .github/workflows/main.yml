@@ -44,5 +44,7 @@ jobs:
           port: ${{ secrets.PORT }}
           user: ${{ secrets.USERNAME }}
           pass: ${{ secrets.PASSWORD }}
-          local: "./build/*"
-          remote: /var/www
+          #local: "./build/*"
+          #remote: /var/www
+          scp: |
+              '.build/*' => /var/www
