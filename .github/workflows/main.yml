@@ -37,14 +37,26 @@ jobs:
    #     scp: |
    #       './build/*' => /var/www
    #     connect_timeout: 10m
-    - name: local remote scp 1
-      uses: cross-the-world/scp-pipeline@master
-      with:
-          host: ${{ secrets.HOSTNAME }}
-          port: ${{ secrets.PORT }}
-          user: ${{ secrets.USERNAME }}
-          pass: ${{ secrets.PASSWORD }}
+   # - name: local remote scp 1
+   #   uses: cross-the-world/scp-pipeline@master
+   #   with:
+   #       host: ${{ secrets.HOSTNAME }}
+   #       port: ${{ secrets.PORT }}
+   #       user: ${{ secrets.USERNAME }}
+   #       pass: ${{ secrets.PASSWORD }}
           #local: "./build/*"
           #remote: /var/www
-          scp: |
-              '.build/*' => /var/www
+   #       scp: |
+   #           '.build/*' => /var/www
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@v1
+      with:
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }} 
+      #    key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            cd /var/www
+            #rm -rf *
+            scp -r $GITHUB_WORKSPACE/build/* .
