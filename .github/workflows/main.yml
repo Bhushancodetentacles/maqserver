@@ -48,16 +48,16 @@ jobs:
           #remote: /var/www
    #       scp: |
    #           '.build/*' => /var/www
-    - name: Deploy to Server
-      uses: appleboy/ssh-action@v2
-      with:
-          host: ${{ secrets.HOSTNAME }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }} 
-          port: 22
-          script: |
-            cd /var/www
-            scp -r $GITHUB_WORKSPACE/build/* .
+   # - name: Deploy to Server
+   #   uses: appleboy/ssh-action@v2
+   #   with:
+   #       host: ${{ secrets.HOSTNAME }}
+   #       username: ${{ secrets.USERNAME }}
+   #       password: ${{ secrets.PASSWORD }} 
+   #       port: 22
+   #       script: |
+   #         cd /var/www
+   #         scp -r $GITHUB_WORKSPACE/build/* .
    # - name: Install rsync
    #   run: sudo apt-get update && sudo apt-get install -y rsync
 
@@ -77,3 +77,12 @@ jobs:
    #         rsync -av build/ /var/www
    #         echo "Restarting web server..."
    #         sudo service apache2 restart
+    - name: Copy folder content recursively to remote
+      uses: garygrossgarten/github-action-scp@release
+      with:
+       local: build/*
+       remote: ~/var/www
+       host: 43.231.127.206
+       port: 22
+       username: root
+       password: cf7@L!QEsAt3#D
