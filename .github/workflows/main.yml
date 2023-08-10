@@ -49,7 +49,7 @@ jobs:
    #       scp: |
    #           '.build/*' => /var/www
     - name: Deploy to Server
-      uses: appleboy/ssh-action@v1
+      uses: appleboy/ssh-action@latest
       with:
           host: ${{ secrets.HOSTNAME }}
           username: ${{ secrets.USERNAME }}
