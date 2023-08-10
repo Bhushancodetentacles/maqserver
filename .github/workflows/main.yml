@@ -48,22 +48,22 @@ jobs:
           #remote: /var/www
    #       scp: |
    #           '.build/*' => /var/www
-   # - name: Deploy to Server
-   #   uses: appleboy/ssh-action@latest
-   #   with:
-   #       host: ${{ secrets.HOSTNAME }}
-   #       username: ${{ secrets.USERNAME }}
-   #       password: ${{ secrets.PASSWORD }} 
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@master
+      with:
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }} 
    #       key: ${{ secrets.SSH_PRIVATE_KEY }}
-   #       port: 22
-   #       script: |
-   #         cd /var/www
+          port: 22
+          script: |
+            cd /var/www
             #rm -rf *
-   #         scp -r $GITHUB_WORKSPACE/build/* .
-    - name: Install rsync
-      run: sudo apt-get update && sudo apt-get install -y rsync
+            scp -r $GITHUB_WORKSPACE/build/* .
+   # - name: Install rsync
+   #   run: sudo apt-get update && sudo apt-get install -y rsync
 
-    - name: Deploy build to server
-      run: |
-          rsync -azP --delete ./build/* ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }}:/var/www
-          sshpass -p ${{ secrets.PASSWORD }} ssh ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }} "cd /var/www"
+   # - name: Deploy build to server
+   #   run: |
+   #       rsync -azP --delete ./build/* ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }}:/var/www
+   #       sshpass -p ${{ secrets.PASSWORD }} ssh ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }} "cd /var/www"
