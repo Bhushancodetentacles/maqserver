@@ -48,18 +48,16 @@ jobs:
           #remote: /var/www
    #       scp: |
    #           '.build/*' => /var/www
-  #  - name: Deploy to Server
-  #    uses: appleboy/ssh-action@master
-  #    with:
-  #        host: ${{ secrets.HOSTNAME }}
-  #        username: ${{ secrets.USERNAME }}
-  #        password: ${{ secrets.PASSWORD }} 
-   #       key: ${{ secrets.SSH_PRIVATE_KEY }}
-  #        port: 22
-  #        script: |
-  #          cd /var/www
-  #          #rm -rf *
-  #          scp -r $GITHUB_WORKSPACE/build/* .
+    - name: Deploy to Server
+      uses: appleboy/ssh-action@v2
+      with:
+          host: ${{ secrets.HOSTNAME }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }} 
+          port: 22
+          script: |
+            cd /var/www
+            scp -r $GITHUB_WORKSPACE/build/* .
    # - name: Install rsync
    #   run: sudo apt-get update && sudo apt-get install -y rsync
 
@@ -67,15 +65,15 @@ jobs:
    #   run: |
    #       rsync -azP --delete ./build/* ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }}:/var/www
    #       sshpass -p ${{ secrets.PASSWORD }} ssh ${{ secrets.USERNAME }}@${{ secrets.HOSTNAME }} "cd /var/www"
-    - name: Deploy
-      uses: mhart/ssh-action@v2
-      with:
-          host: ${{ secrets.HOSTNAME }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
-          #key: ${{ secrets.SERVER_KEY }}
-          script: |
-            #mkdir -p /var/www/my-app
-            rsync -av build/ /var/www
-            echo "Restarting web server..."
-            sudo service apache2 restart
+   # - name: Deploy
+   #   uses: mhart/ssh-action@v2
+   #   with:
+   #       host: ${{ secrets.HOSTNAME }}
+   #       username: ${{ secrets.USERNAME }}
+   #       password: ${{ secrets.PASSWORD }}
+   #       #key: ${{ secrets.SERVER_KEY }}
+   #       script: |
+   #         #mkdir -p /var/www/my-app
+   #         rsync -av build/ /var/www
+   #         echo "Restarting web server..."
+   #         sudo service apache2 restart
