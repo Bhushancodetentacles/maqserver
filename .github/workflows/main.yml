@@ -27,16 +27,28 @@ jobs:
 
     - name: Build the app
       run: npm run build:prod
+      
     - name: Deploy to main server
-      uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+      uses: appleboy/ssh-action@v3
       with:
-        #key: ${{ secrets.SSH_PRIVATE_KEY }}
-        pass: ${{ secrets.PASSWORD }}
-        user: ${{ secrets.USERNAME }}
         host: ${{ secrets.HOSTNAME }}
-        scp: |
-          './build/*' => /var/www
-        connect_timeout: 10m
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        script: |
+          mkdir -p /var/www/my-app
+          rsync -av build/ /var/www/my-app
+          echo "Restarting web server..."
+          sudo service apache2 restart  
+   # - name: Deploy to main server
+   #   uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
+   #   with:
+   #     #key: ${{ secrets.SSH_PRIVATE_KEY }}
+   #     pass: ${{ secrets.PASSWORD }}
+   #     user: ${{ secrets.USERNAME }}
+   #     host: ${{ secrets.HOSTNAME }}
+   #     scp: |
+    #      './build/*' => /var/www
+    #    connect_timeout: 10m
    # - name: local remote scp 1
    #   uses: cross-the-world/scp-pipeline@master
    #   with:
