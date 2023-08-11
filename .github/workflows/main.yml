@@ -47,7 +47,7 @@ jobs:
         user: ${{ secrets.USERNAME }}
         host: ${{ secrets.HOSTNAME }}
         scp: |
-         './build/*' => /tmp/maq/
+         './build/*' => /tmp/dotnet/
     - name: Start the application with PM2
       uses: appleboy/ssh-action@master
       with:
@@ -56,7 +56,7 @@ jobs:
           #password: ${{ secrets.PASSWORD }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-             sudo mv /tmp/maq/* /var/www/html/
+             sudo mv /tmp/dotnet/* /var/www/
    # - name: local remote scp 1
    #   uses: cross-the-world/scp-pipeline@master
    #   with:
